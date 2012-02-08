@@ -46,7 +46,7 @@ What's really happening here is that Rustic is just remembering all the commands
     
     rust: "side effects!"
     Enter:
-    let b = "I sure hope there are no side effects luring about";
+    let b = "I sure hope there are no side effects lurking about";
     
     rust: "side effects!"
 
