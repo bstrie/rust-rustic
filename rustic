@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+import os
+import re
+import subprocess
+import sys
+
+EXE_NAME = '.rustic.scratch'
+FILE_NAME = EXE_NAME + '.rs'
+good_use = 'use std;\n'
+good_state = 'fn main(_args: [str]) {\n'
+
+def repl():
+    global good_use
+    global good_state
+    while True:
+        print('Enter:')
+        new_use = new_state = inspect = ''
+        while True:
+            line = input()
+            if re.match('\?', line) is not None:
+                inspect += 'log(error, ' + line[1:] + ');\n'
+#            elif re.match('log\(', line) is not None or \
+#                 re.match('#debug\(', line) is not None or \
+#                 re.match('#info\(', line) is not None or \
+#                 re.match('#warn\(', line) is not None or \
+#                 re.match('#error\(', line) is not None:
+#                inspect += line + '\n'
+            elif re.match('use ', line) is not None:
+                new_use += line + '\n'
+            else:
+                new_state += line + '\n'
+
+            if line == '':
+                new_state = new_state[:-1]
+                teststate = good_use + new_use + good_state + new_state + inspect + '}'
+                with open(FILE_NAME, 'w') as f:
+                    f.write(teststate)
+                comp_out = run(('rustc', FILE_NAME))
+                eval_out = run(('./' + EXE_NAME)).strip()
+                if eval_out != '': print(eval_out)
+                good_use += new_use
+                good_state += new_state
+                break
+
+
+def run(params):
+    try:
+        return subprocess.check_output(params).decode('u8')
+    except subprocess.CalledProcessError as e:
+        print(e.output.decode('u8'))
+        repl()
+
+
+def rustic():
+    global good_use
+    global good_state
+    try:
+        repl()
+    except EOFError:
+        good_use = 'use std;\n'
+        good_state = 'fn main(_args: [str]) {\n'
+        print('\n^D\nEnvironment reset')
+        rustic()
+    except KeyboardInterrupt:
+        while True:
+            prompt = input('\nSave scratch files? [y/n] ')
+            if prompt.lower() == 'n':
+                if os.path.exists(FILE_NAME): os.remove(FILE_NAME)
+                if os.path.exists(EXE_NAME): os.remove(EXE_NAME)
+                sys.exit(0)
+            elif prompt.lower() == 'y':
+                sys.exit(0)
+
+print('Tips: blank line to eval, ^D to clear environment, ?expr to log expr, ^C to quit')
+rustic()
