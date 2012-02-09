@@ -15,7 +15,7 @@ Tested on Linux. Should work on Mac and Windows with a few tweaks (readline supp
 
 ## Installation
 
-The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo, Rustic will be in `~/.cargo/bin`. 
+The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `~/.cargo/bin`. 
 
 Rustic requires Python 3 to run. Yes, Rust only requires Python 2.6, but Python's `subprocess` library API changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
 
