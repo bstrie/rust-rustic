@@ -11,6 +11,7 @@ file_name = exe_name + '.rs'
 valid_head = default_head = 'use std;\n'
 valid_body = default_body = 'fn main(_args: [str]) {\n'
 
+print(subprocess.check_output(('rustc', '-v')).decode('u8'))
 print('Tips: blank line to eval, ^D to clear environment, ?expr to log expr, ^C to quit')
 try:
     while True:
@@ -55,11 +56,10 @@ try:
                 break
 
 except KeyboardInterrupt:
-    while True:
-        prompt = input('\nDelete scratch files? [y/n] ')
-        if prompt.lower() == 'y':
-            if os.path.exists(file_name): os.remove(file_name)
-            if os.path.exists(exe_name): os.remove(exe_name)
-            sys.exit(0)
-        elif prompt.lower() == 'n':
-            sys.exit(0)
+    prompt = input('\nDelete scratch files? [y]/n: ')
+    if prompt.lower() == 'n':
+        sys.exit(0)
+    else:
+        if os.path.exists(file_name): os.remove(file_name)
+        if os.path.exists(exe_name): os.remove(exe_name)
+        sys.exit(0)
