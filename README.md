@@ -79,7 +79,7 @@ If you don't want your commands to be saved for future evaluation passes, enter 
     .rustic.scratch.rs:4 log(error, a+b);
                                       ^
 
-Use `^C` to quit Rustic. You will be presented with the option to delete your scratch files; if you'd like to visually inspect the contents of your most recent `.rs` file and executable, enter `n` to preserve them. They will be saved as hidden files in the directory in which Rustic was invoked.
+Use `^C` to quit Rustic. You will be presented with the option to delete your scratch files; if you'd like to visually inspect the contents of your most recent `.rs` file and compiled executable, enter `n` to preserve them. They will be saved as hidden files in the directory in which Rustic was invoked.
 
 I haven't really tried to push the limits of what this (admittedly lame) approach to a REPL can do. However, because it's just calling `rustc` with every pass, anything that would compile normally ought to be fine:
 
