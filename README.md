@@ -19,6 +19,8 @@ Requires Python 3 to run. Yes, Rust only requires Python 2.6, but Python's subpr
 
 (Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to have constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin learning Rust.))
 
+Also, naturally, requires a functioning version of `rustc`.
+
 ## Usage
 
 At the `Input:` prompt, enter as many newline-separated commands as you like. Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
