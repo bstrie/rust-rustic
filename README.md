@@ -25,7 +25,7 @@ Also, naturally, Rustic requires a functioning version of `rustc`.
 
 ## Usage
 
-At the `Input:` prompt, enter as many newline-separated commands as you like. Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
+At the `Input:` prompt, enter as many newline-separated commands as you like. On a readline-enabled platform, use the arrow keys to cycle through previously entered commands. Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
 
     Input:
     let foo = 'hello';
