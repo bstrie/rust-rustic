@@ -1,6 +1,6 @@
 # Rustic
 
-This is Rustic[1], an incredibly lazy REPL[2] for the [Rust programming language](https://github.com/mozilla/rust).
+This is Rustic[1], the supremely lazy REPL[2] for the [Rust programming language](https://github.com/mozilla/rust).
 
 ## Features
 
@@ -17,11 +17,11 @@ Tested on Linux. Should work on Mac and Windows with a few tweaks (readline supp
 
 The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `~/.cargo/bin`. 
 
-Rustic requires Python 3 to run. Yes, Rust only requires Python 2.6, but Python's `subprocess` library API changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
+Rustic requires Python 3 to run. Yes, Rust itself only requires Python 2.6, but Python's subprocess library changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
 
-(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to have constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin learning Rust.))
+(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to have constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin to learn Rust.))
 
-Also, naturally, requires a functioning version of `rustc`.
+Also, naturally, Rustic requires a functioning version of `rustc`.
 
 ## Usage
 
@@ -46,7 +46,7 @@ At the `Input:` prompt, enter as many newline-separated commands as you like. En
 
 As you can see, you can use `?expr` to insert a logging statement for `expr`. 
 
-What's really happening here is that Rustic is just remembering all the commands you've entered, recompiling the lot of it with every evaluation pass, and running the program anew. This means that if you evaluate commands with visible side effects, these will be repeated at each evaluation:
+What's really happening here is that Rustic is just remembering all the commands you've entered, recompiling the lot of it with every evaluation pass, and running the program anew. This means that if you evaluate commands with side effects, these will recur with each evaluation:
 
     Input:
     log(error, "side effects!");
@@ -60,9 +60,9 @@ What's really happening here is that Rustic is just remembering all the commands
     Output:
     rust: "side effects!"
 
-Note that using the `?expr` syntax does *not* cause the logging statement to be remembered. You can clear Rustic's remembered commands by sending an `EOF` character (`^D` on Unix).
+Note that using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's remembered commands by typing an `EOF` character at the input prompt (`^D` on Unix).
 
-If you don't want your commands to be saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch:
+If you don't want your commands to be saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch after the initial evaluation:
 
     Input:
     let a = 2;
@@ -81,9 +81,9 @@ If you don't want your commands to be saved for future evaluation passes, enter 
     .rustic.scratch.rs:4 log(error, a+b);
                                       ^
 
-Use `^C` to quit Rustic. You will be presented with the option to delete your scratch files; if you'd like to manually inspect the contents of your most recent `.rs` file and compiled executable, enter `n` to preserve them. They will be saved as hidden files in the directory in which Rustic was invoked.
+Use `^C` to quit Rustic. You will be presented with the option to delete your scratch files; if you'd like to manually inspect your most recent `.rs` file and compiled executable, enter `n` to preserve them. They will be saved as hidden files in the directory in which Rustic was invoked.
 
-I haven't really tried to push the limits of what this (admittedly lame) approach to a REPL can do. However, because it's just calling `rustc` with every pass, anything that would compile normally ought to be fine:
+I haven't really tried to push the limits of what this (admittedly lame) approach to a REPL can do. However, because it's just delegating all the heavy lifting to `rustc`, any program that compiles normally ought to work as expected:
 
     Input:
     fn fac(n: int) -> int {
