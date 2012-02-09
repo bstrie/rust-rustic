@@ -13,6 +13,7 @@ valid_body = default_body = 'fn main(_args: [str]) {\n'
 
 print('Compiler info:\n' + subprocess.check_output(('rustc', '-v')).decode('u8'))
 print('Tips: blank line to eval, ^D to clear environment, ?expr to log expr, ^C to quit')
+print('For docs and examples, see https://github.com/Wensleydale/rust-rustic\n')
 try:
     while True:
         print('Input:')
