@@ -35,7 +35,7 @@ try:
                 transient += 'log(error, ' + line[1:] + ');\n'
             elif persist_transient:
                 transient += line + '\n'
-            elif re.match('use ', line):
+            elif re.match('use ', line) or re.match('import ', line):
                 new_head += line + '\n'
             else:
                 new_body += line + '\n'
