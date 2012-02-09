@@ -16,6 +16,7 @@ try:
     while True:
         print('Input:')
         new_head = new_body = transient = ''
+        persist_transient = False
 
         while True:  # Breaks on blank lines and EOF
             try:
@@ -26,15 +27,18 @@ try:
                 print('\nEnvironment reset\n')
                 break
 
-            if re.match('\?', line) is not None:
+            if line == '?':
+                persist_transient = True
+            elif re.match('\?.', line) is not None:
                 transient += 'log(error, ' + line[1:] + ');\n'
+            elif persist_transient:
+                transient += line + '\n'
             elif re.match('use ', line) is not None:
                 new_head += line + '\n'
             else:
                 new_body += line + '\n'
 
             if line == '':
-                new_body = new_body[:-1]  # Pesky infinite newlines
                 with open(file_name, 'w') as f:
                     f.write(valid_head + new_head + valid_body + new_body + transient + '}')
                 try:  # To compile the file
@@ -43,7 +47,7 @@ try:
                         output = subprocess.check_output(('./' + exe_name)).decode('u8')
                         if output != '': print('Output:\n' + output)
                         valid_head += new_head
-                        valid_body += new_body
+                        valid_body += new_body[:-1]
                     except subprocess.CalledProcessError as e:
                         print('Runtime error:\n' + e.output.decode('u8'))
                 except subprocess.CalledProcessError as e:
@@ -52,10 +56,10 @@ try:
 
 except KeyboardInterrupt:
     while True:
-        prompt = input('\nSave scratch files? [y/n] ')
-        if prompt.lower() == 'n':
+        prompt = input('\nDelete scratch files? [y/n] ')
+        if prompt.lower() == 'y':
             if os.path.exists(file_name): os.remove(file_name)
             if os.path.exists(exe_name): os.remove(exe_name)
             sys.exit(0)
-        elif prompt.lower() == 'y':
+        elif prompt.lower() == 'n':
             sys.exit(0)
