@@ -11,7 +11,7 @@ file_name = exe_name + '.rs'
 valid_head = default_head = 'use std;\n'
 valid_body = default_body = 'fn main(_args: [str]) {\n'
 
-print(subprocess.check_output(('rustc', '-v')).decode('u8'))
+print('Compiler info:\n' + subprocess.check_output(('rustc', '-v')).decode('u8'))
 print('Tips: blank line to eval, ^D to clear environment, ?expr to log expr, ^C to quit')
 try:
     while True:
@@ -30,11 +30,11 @@ try:
 
             if line == '?':
                 persist_transient = True
-            elif re.match('\?.', line) is not None:
+            elif re.match('\?.', line):
                 transient += 'log(error, ' + line[1:] + ');\n'
             elif persist_transient:
                 transient += line + '\n'
-            elif re.match('use ', line) is not None:
+            elif re.match('use ', line):
                 new_head += line + '\n'
             else:
                 new_body += line + '\n'
