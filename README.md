@@ -70,14 +70,14 @@ If you don't want your commands to be saved for future evaluation passes, enter 
     rust: 5
     
     Input:
-    ?b
+    ?a+b
     
     Compiler error:
-    .rustic.scratch.rs:4:11: 4:12 error: unresolved name: b
-    .rustic.scratch.rs:4 log(error, b);
-                                    ^
+    .rustic.scratch.rs:4:13: 4:14 error: unresolved name: b
+    .rustic.scratch.rs:4 log(error, a+b);
+                                      ^
 
-I haven't really tried to push the limits of what this approach can do. However, because it's just calling `rustc` with every pass, anything that would compile normally ought to be fine:
+I haven't really tried to push the limits of what this (admittedly lame) approach to a REPL can do. However, because it's just calling `rustc` with every pass, anything that would compile normally ought to be fine:
 
     Input:
     fn fac(n: int) -> int {
