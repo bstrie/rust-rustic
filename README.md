@@ -15,7 +15,7 @@ Tested on Linux. Should work on Mac and Windows with a few tweaks (readline supp
 
 ## Installation
 
-Requires Python 3 to run. Yes, Rust only requires Python 2.6, but Python's subprocess API changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
+Requires Python 3 to run. Yes, Rust only requires Python 2.6, but Python's `subprocess` library API changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
 
 (Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to have constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin learning Rust.))
 
