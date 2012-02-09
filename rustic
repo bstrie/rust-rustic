@@ -2,6 +2,7 @@
 
 import os
 import re
+import readline
 import subprocess
 import sys
 
