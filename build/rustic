@@ -1,21 +1,70 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import re
 import readline
 import subprocess
 import sys
+import urllib.request
 
 exe_name = '.rustic.scratch'
 file_name = exe_name + '.rs'
 valid_head = default_head = 'use std;\n'
 valid_body = default_body = 'fn main() {\n'
-default_transient = '// Transient:\n'
+indent = '    '
+default_transient = indent + '// Transient:\n'
+show_comp_msg = False
+
+def print_help():
+    print('''Commands:
+  %clear to reset the evaluation environment (equivalent to ^D)
+  %exit to leave the interpreter (equivalent to ^C)
+  %scratch to print your most recent scratch file
+  %compmsg to enable and disable printing of compiler messages
+  %putgist to upload your most recent scratch file and output to Gist
+''')
+
+def print_scratch():
+    try:
+        with open(file_name) as f:
+            print(f.read() + '\n')
+    except IOError:
+        print('\n')
+
+def toggle_comp_msg(show_comp_msg):
+    show_comp_msg = not show_comp_msg
+    if show_comp_msg:
+        print('Compiler messages enabled\n')
+    else:
+        print('Compiler messages disabled\n')
+    return show_comp_msg
+
+def put_gist(output):
+    try:
+        with open(file_name) as f:
+            scratch = f.read()
+    except IOError:
+        print('No scratch file found\n')
+    else:
+        gist_data = {'description': 'Rustic REPL scratch file',
+                'public': True,
+                'files': {'.rustic.scratch.rs': {'content': scratch}}}
+        if output != '': gist_data['files']['output'] = {'content': output}
+        gist_data = json.dumps(gist_data).encode('u8')
+
+        # Existence of a data parameter automatically turns this into a POST
+        req = urllib.request.Request(url='https://api.github.com/gists',
+                                     data=gist_data)
+        res = urllib.request.urlopen(req)
+        res = json.loads(res.read().decode('u8'))
+        print('Scratch file pasted to ' + res['html_url'] + '\n')
 
 print('[Compiler info]\n' + subprocess.check_output(('rustc', '-v')).decode('u8') + \
 '''
 [Tips]
-Blank line to eval, ^D to clear environment, ?expr to log expr, ^C to quit
+Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
+^C or %exit to quit, %putgist to paste to Gist, %help for a list of commands.
 For documentation and examples, see https://github.com/Wensleydale/rust-rustic\n''')
 
 try:
@@ -28,43 +77,59 @@ try:
         while True:  # Breaks on blank lines and EOF
             try:
                 line = input()
+                if line == '%clear': raise EOFError
+                elif line == '%exit': raise KeyboardInterrupt
             except EOFError:
                 valid_head = default_head
                 valid_body = default_body
-                print('\nEnvironment reset\n')
+                print('\n[Magic]\nEnvironment reset\n')
                 break
 
             if re.match('\?', line):  # Inspect
                 if line == '?':
                     persist_transient = True
                 else:
-                    transient += 'log(error, ' + line[1:] + ');\n'
+                    transient += indent + 'log(error, ' + line[1:] + ');\n'
+            elif re.match('%', line):  # Magic
+                print('\n[Magic]')
+                if line == '%help':
+                    print_help()
+                elif line == '%scratch':
+                    print_scratch()
+                elif line == '%compmsg':
+                    show_comp_msg = toggle_comp_msg(show_comp_msg)
+                elif line == '%putgist':
+                    put_gist(output)
+                else:
+                    print('Unrecognized magic word: ' + line + '\n')
+                break
             elif line != '':  # Command
                 if persist_transient:
-                    transient += line + '\n'
+                    transient += indent + line + '\n'
                 elif re.match('use ', line) or re.match('import ', line):
                     new_head += line + '\n'
                 elif line != '':
-                    new_body += line + '\n'
+                    new_body += indent + line + '\n'
             else:  # Newline
+                with open(file_name, 'w') as f:
+                    f.write(valid_head + new_head + \
+                            valid_body + new_body + transient + '}')
+                try:  # To compile the file
+                    comp_msg = subprocess.check_output(('rustc', file_name)).decode('u8')
+                    if show_comp_msg and comp_msg != '':
+                        print('[Compiler message]\n' + comp_msg)
+                    try:  # To run the file
+                        output = subprocess.check_output(('./' + exe_name)).decode('u8')
+                        if output != '': print('[Output]\n' + output)
+                        valid_head += new_head
+                        valid_body += new_body
+                    except subprocess.CalledProcessError as e:
+                        output = '[Runtime error]\n' + e.output.decode('u8')
+                        print(output)
+                except subprocess.CalledProcessError as e:
+                    output = '[Compiler error]\n' + e.output.decode('u8')
+                    print(output)
                 break
-
-        with open(file_name, 'w') as f:
-            f.write(valid_head + new_head + valid_body + new_body + transient + '}')
-
-        try:  # To compile the file
-            subprocess.check_output(('rustc', file_name)).decode('u8')
-            try:  # To run the file
-                output = subprocess.check_output(('./' + exe_name)).decode('u8')
-                if output != '': print('[Output]\n' + output)
-                valid_head += new_head
-                valid_body += new_body
-            except subprocess.CalledProcessError as e:
-                output = '[Runtime error]\n' + e.output.decode('u8')
-                print(output)
-        except subprocess.CalledProcessError as e:
-            output = '[Compiler error]\n' + e.output.decode('u8')
-            print(output)
 
 except KeyboardInterrupt:
     prompt = input('\n[Exit]\nDelete scratch files? [y]/n: ')
