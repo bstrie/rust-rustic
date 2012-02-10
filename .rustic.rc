@@ -1,5 +1,5 @@
 #[link(
-   name = ".rustic.phony",
+   name = ".rustic",
    vers = "1.0",
    uuid = "6ae5808a-62ae-438c-a77a-aa96ebc934a7",
    url = "https://github.com/Wensleydale/rust-rustic"
