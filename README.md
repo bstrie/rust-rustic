@@ -1,6 +1,6 @@
 # Rustic
 
-This is Rustic[1], the supremely lazy REPL[2] for the [Rust programming language](https://github.com/mozilla/rust).
+This is Rustic<sup>[1]</sup>, the supremely lazy REPL<sup>[2]</sup> for the [Rust programming language](https://github.com/mozilla/rust).
 
 ## Features
 
