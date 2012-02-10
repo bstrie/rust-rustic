@@ -40,10 +40,10 @@ def toggle_comp_msg(show_comp_msg):
         print('Compiler messages disabled\n')
     return show_comp_msg
 
-def put_gist(output):
+def put_gist(output, comp_ver):
     try:
         with open(file_name) as f:
-            scratch = f.read()
+            scratch = '/*\n' + comp_ver + '*/\n' + f.read()
     except IOError:
         print('No scratch file found\n')
     else:
@@ -60,8 +60,8 @@ def put_gist(output):
         res = json.loads(res.read().decode('u8'))
         print('Scratch file pasted to ' + res['html_url'] + '\n')
 
-print('[Compiler info]\n' + subprocess.check_output(('rustc', '-v')).decode('u8') + \
-'''
+comp_ver = subprocess.check_output(('rustc', '-v')).decode('u8') 
+print('[Compiler info]\n' + comp_ver + '''
 [Tips]
 Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
 ^C or %exit to quit, %putgist to paste to Gist, %help for a list of commands.
@@ -99,7 +99,7 @@ try:
                 elif line == '%compmsg':
                     show_comp_msg = toggle_comp_msg(show_comp_msg)
                 elif line == '%putgist':
-                    put_gist(output)
+                    put_gist(output, comp_ver)
                 else:
                     print('Unrecognized magic word: ' + line + '\n')
                 break

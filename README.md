@@ -132,7 +132,7 @@ Perhaps the most thrilling of these is `%putgist`, which will automatically uplo
     %putgist
     
     [Magic]
-    Scratch file pasted to https://gist.github.com/1786582
+    Scratch file pasted to https://gist.github.com/1786708
 
 [1] RUST Interactive, Cruddily
 
