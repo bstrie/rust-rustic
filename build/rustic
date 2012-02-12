@@ -11,16 +11,24 @@ import urllib.request
 # Now set up colorama, accounting for cargo installation limitations
 sys.path.insert(0, '../')
 try:
-    from build import init, Fore, Style
-except ImportError:
-    from bin import init, Fore, Style
-init()
-term_cyan = Fore.CYAN + Style.BRIGHT
-term_green = Fore.GREEN + Style.BRIGHT
-term_magenta = Fore.MAGENTA + Style.BRIGHT
-term_yellow = Fore.YELLOW + Style.BRIGHT
-term_red = Fore.RED + Style.BRIGHT
-term_reset = Fore.RESET + Style.RESET_ALL
+    try:
+        from build import init, Fore, Style
+    except ImportError:
+        from bin import init, Fore, Style
+    init()
+    term_cyan = Fore.CYAN + Style.BRIGHT
+    term_green = Fore.GREEN + Style.BRIGHT
+    term_magenta = Fore.MAGENTA + Style.BRIGHT
+    term_yellow = Fore.YELLOW + Style.BRIGHT
+    term_red = Fore.RED + Style.BRIGHT
+    term_reset = Fore.RESET + Style.RESET_ALL
+except ImportError:  # If we still can't find colorama
+    term_cyan = ''
+    term_green = ''
+    term_magenta = ''
+    term_yellow = ''
+    term_red = ''
+    term_reset = ''
 
 scratch_name = '.rustic.scratch'
 exe_suffix = ('' if os.name != 'nt' else '.exe')
