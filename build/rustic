@@ -12,11 +12,12 @@ scratch_name = '.rustic.scratch'
 exe_suffix = ('' if os.name != 'nt' else '.exe')
 exe_name = scratch_name + exe_suffix
 file_name = scratch_name + '.rs'
+# Some commands (use and import) prefer to be outside of main, hence head
 valid_head = default_head = 'use std;\n'
 valid_body = default_body = 'fn main() {\n'
 indent = '    '
 default_transient = indent + '// Transient:\n'
-show_comp_msg = False
+show_comp_msg = False  # Mostly just compiler warnings
 
 def print_help():
     print('''Commands:
@@ -45,6 +46,7 @@ def toggle_comp_msg(show_comp_msg):
 def put_gist(output, comp_ver):
     try:
         with open(file_name) as f:
+            # Also prepend the compiler info for ease of debuggings
             scratch = '/*\n' + comp_ver + '*/\n' + f.read()
     except IOError:
         print('No scratch file found\n')
@@ -62,6 +64,7 @@ def put_gist(output, comp_ver):
         res = json.loads(res.read().decode('u8'))
         print('Scratch file pasted to ' + res['html_url'] + '\n')
 
+# This is where it all begins
 comp_ver = subprocess.check_output(('rustc', '-v'), \
                                    stderr=subprocess.STDOUT).decode('u8') 
 print('[Compiler info]\n' + comp_ver + '''
@@ -71,7 +74,7 @@ Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
 For documentation and examples, see https://github.com/Wensleydale/rust-rustic\n''')
 
 try:
-    while True:
+    while True:  # Breaks on ^C
         print('[Input]')
         new_head = new_body = ''
         transient = default_transient
@@ -88,7 +91,7 @@ try:
                 print('\n[Magic]\nEnvironment reset\n')
                 break
 
-            if re.match('\?', line):  # Inspect
+            if re.match('\?', line):  # Transient/inspect
                 if line == '?':
                     persist_transient = True
                 else:
@@ -113,7 +116,7 @@ try:
                     new_head += line + '\n'
                 else:
                     new_body += indent + line + '\n'
-            else:  # Newline
+            else:  # Newline, let's evaluate
                 with open(file_name, 'w') as f:
                     f.write(valid_head + new_head + \
                             valid_body + new_body + transient + '}')
