@@ -4,13 +4,15 @@ This is Rustic<sup>[1]</sup>, the worse-is-better REPL<sup>[2]</sup> for the [Ru
 
 (Actually, Rustic is more of an incremental source file compositor and validator (ISFCV) than a REPL, but it's more-or-less identical in terms of use.)
 
+Although I haven't had a chance to test it on platforms other than Linux, Rustic should be stable. Please report any bugs encountered to the [issue tracker](https://github.com/Wensleydale/rust-rustic/issues) on Github.
+
 ## Major Features
 
  * Persistent evaluation history, with optional transience
  * Readline support
  * Easily upload code (with evaluated output) to Gist
  * Low-friction logging
- * Works with any and all builds of Rustc
+ * Works with any and all builds of Rustc (as far as I know)
 
 ## Platforms
 
