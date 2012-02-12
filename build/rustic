@@ -8,8 +8,10 @@ import subprocess
 import sys
 import urllib.request
 
-exe_name = '.rustic.scratch'
-file_name = exe_name + '.rs'
+scratch_name = '.rustic.scratch'
+exe_suffix = ('' if os.name != 'nt' else '.exe')
+exe_name = scratch_name + exe_suffix
+file_name = scratch_name + '.rs'
 valid_head = default_head = 'use std;\n'
 valid_body = default_body = 'fn main() {\n'
 indent = '    '
@@ -48,8 +50,8 @@ def put_gist(output, comp_ver):
         print('No scratch file found\n')
     else:
         gist_data = {'description': 'Rustic REPL scratch file',
-                'public': True,
-                'files': {'.rustic.scratch.rs': {'content': scratch}}}
+                     'public': True,
+                     'files': {'.rustic.scratch.rs': {'content': scratch}}}
         if output != '': gist_data['files']['output'] = {'content': output}
         gist_data = json.dumps(gist_data).encode('u8')
 
@@ -109,7 +111,7 @@ try:
                     transient += indent + line + '\n'
                 elif re.match('use ', line) or re.match('import ', line):
                     new_head += line + '\n'
-                elif line != '':
+                else:
                     new_body += indent + line + '\n'
             else:  # Newline
                 with open(file_name, 'w') as f:
