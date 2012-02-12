@@ -9,6 +9,9 @@ import sys
 import urllib.request
 
 # Now set up colorama, accounting for cargo installation limitations
+# If you don't want the colorama files cluttering up your build directory,
+# erase the following files:
+# ansi.py initialise.py win32.py ansitowin32.py __init__.py winterm.py
 sys.path.insert(0, '../')
 try:
     try:
