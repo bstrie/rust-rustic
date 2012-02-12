@@ -60,7 +60,8 @@ def put_gist(output, comp_ver):
         res = json.loads(res.read().decode('u8'))
         print('Scratch file pasted to ' + res['html_url'] + '\n')
 
-comp_ver = subprocess.check_output(('rustc', '-v')).decode('u8') 
+comp_ver = subprocess.check_output(('rustc', '-v'), \
+                                   stderr=subprocess.STDOUT).decode('u8') 
 print('[Compiler info]\n' + comp_ver + '''
 [Tips]
 Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
@@ -115,11 +116,13 @@ try:
                     f.write(valid_head + new_head + \
                             valid_body + new_body + transient + '}')
                 try:  # To compile the file
-                    comp_msg = subprocess.check_output(('rustc', file_name)).decode('u8')
+                    comp_msg = subprocess.check_output(('rustc', file_name),
+                                                       stderr=subprocess.STDOUT).decode('u8')
                     if show_comp_msg and comp_msg != '':
                         print('[Compiler message]\n' + comp_msg)
                     try:  # To run the file
-                        output = subprocess.check_output(('./' + exe_name)).decode('u8')
+                        output = subprocess.check_output(('./' + exe_name),
+                                                         stderr=subprocess.STDOUT).decode('u8')
                         if output != '': print('[Output]\n' + output)
                         valid_head += new_head
                         valid_body += new_body
