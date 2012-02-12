@@ -10,7 +10,10 @@ import urllib.request
 
 # Now set up colorama, accounting for cargo installation limitations
 sys.path.insert(0, '../')
-from build import init, Fore, Style
+try:
+    from build import init, Fore, Style
+except ImportError:
+    from bin import init, Fore, Style
 init()
 term_cyan = Fore.CYAN + Style.BRIGHT
 term_green = Fore.GREEN + Style.BRIGHT
