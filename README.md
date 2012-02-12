@@ -8,7 +8,7 @@ This is Rustic<sup>[1]</sup>, the worse-is-better REPL<sup>[2]</sup> for the [Ru
 
  * Persistent evaluation history, with optional transience
  * Readline support
- * Easily upload working code (with evaluated output) to Gist
+ * Easily upload code (with evaluated output) to Gist
  * Low-friction logging
  * Works with any and all builds of Rustc
 
