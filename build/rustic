@@ -21,7 +21,7 @@ def print_help():
   %clear to reset the evaluation environment (equivalent to ^D)
   %exit to leave the interpreter (equivalent to ^C)
   %scratch to print your most recent scratch file
-  %compmsg to enable and disable printing of compiler messages
+  %compmsg to enable/disable compiler messages (disabled by default)
   %putgist to upload your most recent scratch file and output to Gist
 ''')
 
