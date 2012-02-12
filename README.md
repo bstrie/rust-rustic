@@ -2,9 +2,11 @@
 
 This is Rustic<sup>[1]</sup>, the worse-is-better REPL<sup>[2]</sup> for the [Rust programming language](https://github.com/mozilla/rust).
 
+(Actually, Rustic is more of an incremental source file compositor and validator (ISFCV) than a REPL, but it's more-or-less identical in terms of use.)
+
 ## Major Features
 
- * Persistent command history
+ * Persistent evaluation history, with optional transience
  * Readline support
  * Easily upload working code (with evaluated output) to Gist
  * Low-friction logging
@@ -12,15 +14,15 @@ This is Rustic<sup>[1]</sup>, the worse-is-better REPL<sup>[2]</sup> for the [Ru
 
 ## Platforms
 
-Tested on Linux. Should work on Mac and Windows with a few tweaks (readline support unavailable on Windows).
+Tested on Linux. Should probably work on Mac and Windows (readline support unavailable on Windows).
 
 ## Installation
 
-The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `~/.cargo/bin`. 
+The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `.cargo/bin`. 
 
-Rustic requires Python 3 to run. Yes, Rust itself only requires Python 2.6, but Python's subprocess library changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
+Rustic requires Python 3 to run. Yes, Rustc itself only requires Python 2.6, but Python's subprocess library changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
 
-(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to undergo constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin to learn Rust.))
+(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to undergo constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin to learn Rust.) If you'd prefer a real REPL written in rust, try [rust-repl](https://github.com/bleibig/rust-repl).)
 
 Also, naturally, Rustic requires a functioning version of Rustc.
 
@@ -114,7 +116,7 @@ Use `%help` to display a list of magic words, with brief descriptions:
       %clear to reset the evaluation environment (equivalent to ^D)
       %exit to leave the interpreter (equivalent to ^C)
       %scratch to print your most recent scratch file
-      %compmsg to enable and disable printing of compiler messages
+      %compmsg to enable/disable compiler messages (disabled by default)
       %putgist to upload your most recent scratch file and output to Gist
 
 Perhaps the most thrilling of these is `%putgist`, which will automatically upload both your most recently evaluated scratch file and its output to Gist:
