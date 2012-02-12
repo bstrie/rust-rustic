@@ -25,14 +25,9 @@ try:
     term_yellow = Fore.YELLOW + Style.BRIGHT
     term_red = Fore.RED + Style.BRIGHT
     term_reset = Fore.RESET + Style.RESET_ALL
-except ImportError:  # If we still can't find colorama
+except:  # If anything at all is wrong with colorama, just disable all colors
     print('[Warning]\nTerminal colors unavailable, apparently\n')
-    term_cyan = ''
-    term_green = ''
-    term_magenta = ''
-    term_yellow = ''
-    term_red = ''
-    term_reset = ''
+    term_cyan = term_green = term_magenta = term_yellow = term_red = term_reset = ''
 
 scratch_name = '.rustic.scratch'
 exe_suffix = ('' if os.name != 'nt' else '.exe')
