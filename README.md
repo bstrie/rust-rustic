@@ -26,6 +26,8 @@ Rustic requires Python 3 to run. Yes, Rustc itself only requires Python 2.6, but
 
 Also, naturally, Rustic requires a functioning version of Rustc.
 
+In addition, Rustic is installed alongside [colorama](http://pypi.python.org/pypi/colorama), a Python library for platform-independent coloration of terminal output. However, Rustic doesn't require those files to operate--you can delete them, or simply move Rustic somewhere else, and the only effect will be the absence of colored output.
+
 ## Usage
 
 At the `[Input]` prompt, enter as many newline-separated commands as you like. On a readline-enabled platform, use the arrow keys to cycle through previously entered commands. Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
