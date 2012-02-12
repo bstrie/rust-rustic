@@ -22,7 +22,7 @@ The file you want to be executing is in the `build` directory in the Git reposit
 
 Rustic requires Python 3 to run. Yes, Rustc itself only requires Python 2.6, but Python's subprocess library changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
 
-(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to undergo constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin to learn Rust.) If you'd prefer a real REPL written in rust, try [rust-repl](https://github.com/bleibig/rust-repl).)
+(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to undergo constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin to learn Rust.) If you'd prefer a real REPL written in Rust, try [rust-repl](https://github.com/bleibig/rust-repl).)
 
 Also, naturally, Rustic requires a functioning version of Rustc.
 
@@ -130,6 +130,19 @@ Perhaps the most thrilling of these is `%putgist`, which will automatically uplo
     [Output]
     rust: 66
     
+    [Input]
+    %scratch
+    
+    [Magic]
+    use std;
+    import math;
+    fn main() {
+        let x = 0x42;
+        let y = 0b10100100;
+        // Transient:
+        log(error, math::min(x, y));
+    }
+
     [Input]
     %putgist
     
