@@ -89,7 +89,7 @@ def put_gist(output, comp_ver):
 comp_ver = subprocess.check_output(('rustc', '-v'), \
                                    stderr=subprocess.STDOUT).decode('u8') 
 print(term_cyan + '[Compiler info]' + term_reset + '\n' + comp_ver + '\n' + \
-term_cyan + '[Tips]' + term_reset + '''
+term_cyan + '[Rustic]' + term_reset + '''
 Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
 ^C or %exit to quit, %putgist to paste to Gist, %help for a list of commands.
 For documentation and examples, see https://github.com/Wensleydale/rust-rustic\n''')
