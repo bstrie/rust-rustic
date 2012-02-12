@@ -23,6 +23,7 @@ try:
     term_red = Fore.RED + Style.BRIGHT
     term_reset = Fore.RESET + Style.RESET_ALL
 except ImportError:  # If we still can't find colorama
+    print('[Warning]\nTerminal colors unavailable, apparently\n')
     term_cyan = ''
     term_green = ''
     term_magenta = ''
