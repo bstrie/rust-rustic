@@ -16,7 +16,7 @@ Although I haven't had a chance to test it on platforms other than Linux, Rustic
 
 ## Platforms
 
-Tested on Linux. Should probably work on Mac and Windows (readline support unavailable on Windows).
+Tested on Linux. Assumed to work on Mac and Windows.
 
 ## Installation
 
