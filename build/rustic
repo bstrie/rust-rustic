@@ -8,11 +8,13 @@ import subprocess
 import sys
 import urllib.request
 
-# Now set up colorama, accounting for cargo installation limitations
+# sys.path[0] has a special meaning, so stick our search paths after it
+sys.path = sys.path[:1] + ['./', '../'] + sys.path[1:]
+
+# Now set up colorama, accounting for cargo installation limitations.
 # If you don't want the colorama files cluttering up your build directory,
 # erase the following files:
 # ansi.py initialise.py win32.py ansitowin32.py __init__.py winterm.py
-sys.path.insert(0, '../')
 try:
     try:
         from build import init, Fore, Style
