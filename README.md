@@ -22,11 +22,9 @@ Tested on Linux. Assumed to work on Mac and Windows.
 
 The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `.cargo/bin`. 
 
-Rustic requires Python 3 to run. Yes, Rustc itself only requires Python 2.6, but Python's subprocess library changed substantially between 2.6 and 2.7, and as long as we're introducing version incompatibilites we may as well go for the gusto.
+Rustic requires Python 3 to run. (Why not implement it in Rust? At the moment, the language is just evolving too quickly, including the interfaces to Rust's syntax libraries. With this approach, users of Rustic never have to worry about syncing their REPL with their version of the compiler.)
 
-(Why not implement it in Rust, you ask? Because as a tool for learning the language, it's not very useful for a REPL to undergo constant breakage due to the rapidity of language development and inevitable syntax changes. (Also, I needed a REPL before I could even begin to learn Rust.) If you'd prefer a real REPL written in Rust, try [rust-repl](https://github.com/bleibig/rust-repl).)
-
-Also, naturally, Rustic requires a functioning version of Rustc.
+Also, naturally, Rustic requires a functioning Rust compiler, accessible via the classpath.
 
 In addition, Rustic is installed alongside [colorama](http://pypi.python.org/pypi/colorama), a Python library for platform-independent coloration of terminal output. However, Rustic doesn't require those files to operate--you can delete them, or simply move Rustic somewhere else, and the only effect will be the absence of colored output.
 
@@ -92,7 +90,7 @@ Use either `^C` or `%exit` to quit Rustic. You will be presented with the option
 
 I haven't really tried to push the limits of what this (admittedly lame) approach to a REPL can do. However, because it's just delegating all the heavy lifting to `rustc`, any program that compiles normally ought to work as expected:
 
-    Input:
+    [Input]
     fn fac(n: int) -> int {
         let result = 1, i = 1;
         while i <= n {
@@ -102,11 +100,11 @@ I haven't really tried to push the limits of what this (admittedly lame) approac
         ret result;
     }
     
-    Input:
+    [Input]
     ?fac(5)
     ?fac(10)
     
-    Output:
+    [Output]
     rust: 120
     rust: 3628800
 

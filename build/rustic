@@ -39,7 +39,8 @@ file_name = scratch_name + '.rs'
 valid_head = default_head = 'use std;\n'
 valid_body = default_body = 'fn main() {\n'
 indent = '    '
-default_transient = indent + '// Transient:\n'
+transient_header = indent + '// Transient:\n'
+default_transient = ''
 show_comp_msg = False  # Mostly just compiler warnings
 
 def print_help():
@@ -94,7 +95,7 @@ print(term_cyan + '[Compiler info]' + term_reset + '\n' + comp_ver + '\n' + \
 term_cyan + '[Rustic]' + term_reset + '''
 Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
 ^C or %exit to quit, %putgist to paste to Gist, %help for a list of commands.
-For documentation and examples, see https://github.com/Wensleydale/rust-rustic\n''')
+For documentation and examples, see https://github.com/bstrie/rust-rustic\n''')
 
 try:
     while True:  # Breaks on ^C
@@ -141,6 +142,8 @@ try:
                 else:
                     new_body += indent + line + '\n'
             else:  # Newline, let's evaluate
+                if transient != default_transient:
+                    transient = transient_header + transient 
                 with open(file_name, 'w') as f:
                     f.write(valid_head + new_head + \
                             valid_body + new_body + transient + '}')
