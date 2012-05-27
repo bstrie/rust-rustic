@@ -24,7 +24,7 @@ The file you want to be executing is in the `build` directory in the Git reposit
 
 Rustic requires Python 3 to run. (Why not implement it in Rust? At the moment, the language is just evolving too quickly, including the interfaces to Rust's syntax libraries. With this approach, users of Rustic never have to worry about syncing their REPL with their version of the compiler.)
 
-Also, naturally, Rustic requires a functioning Rust compiler, accessible via the classpath.
+Also, naturally, Rustic requires a functioning Rust compiler, reachable via the command line.
 
 In addition, Rustic is installed alongside [colorama](http://pypi.python.org/pypi/colorama), a Python library for platform-independent coloration of terminal output. However, Rustic doesn't require those files to operate--you can delete them, or simply move Rustic somewhere else, and the only effect will be the absence of colored output.
 
