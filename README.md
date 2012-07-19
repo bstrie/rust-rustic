@@ -1,4 +1,4 @@
-# Rustic
+# Rustic 0.1
 
 This is Rustic,<sup>[1]</sup> the worse-is-better REPL<sup>[2]</sup> for the [Rust programming language](https://github.com/mozilla/rust).
 
