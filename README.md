@@ -1,14 +1,14 @@
 # Rustic
 
-This is Rustic<sup>[1]</sup>, the worse-is-better REPL<sup>[2]</sup> for the [Rust programming language](https://github.com/mozilla/rust).
+This is Rustic,<sup>[1]</sup> the worse-is-better REPL<sup>[2]</sup> for the [Rust programming language](https://github.com/mozilla/rust).
 
-(Actually, Rustic is more of an incremental source file compositor and validator (ISFCV) than a REPL, but it's more-or-less identical in terms of use.)
+(To be more precise, Rustic is more of an incremental source file compositor and validator (ISFCV) than a REPL, but it's more-or-less identical in terms of use.)
 
 Although I haven't had a chance to test it on platforms other than Linux, Rustic should be stable. Please report any bugs encountered to the [issue tracker](https://github.com/Wensleydale/rust-rustic/issues) on Github.
 
 ## Major Features
 
- * Persistent evaluation history, with optional transience
+ * Persistent evaluation history (with optional transience!)
  * Readline support
  * Easily upload code (with evaluated output) to Gist
  * Low-friction logging
@@ -20,9 +20,9 @@ Tested on Linux. Assumed to work on Mac and Windows.
 
 ## Installation
 
-The file you want to be executing is in the `build` directory in the Git repository (the `.rc` and `.rs` files are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `.cargo/bin`. 
+The `rustic` file itself is found in the `build` directory in the Git repository (the `.rc` and `.rs` files in the upper directory are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `.cargo/bin`. 
 
-Rustic requires Python 3 to run. (Why not implement it in Rust? At the moment, the language is just evolving too quickly, including the interfaces to Rust's syntax libraries. With this approach, users of Rustic never have to worry about syncing their REPL with their version of the compiler.)
+Rustic requires Python 3 to run. Maybe I'll rewrite it in Rust once the language stabilizes a bit.
 
 Also, naturally, Rustic requires a functioning Rust compiler, reachable via the command line.
 
@@ -30,7 +30,7 @@ In addition, Rustic is installed alongside [colorama](http://pypi.python.org/pyp
 
 ## Usage
 
-At the `[Input]` prompt, enter as many newline-separated commands as you like. On a readline-enabled platform, use the arrow keys to cycle through previously entered commands. Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
+At the `[Input]` prompt, enter as many newline-separated commands as you like. On a readline-enabled platform, use the arrow keys to cycle through previously entered commands (among other readline niceties, such as ^R for searching your history). Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
 
     [Input]
     let foo = 'hello';
@@ -51,7 +51,7 @@ At the `[Input]` prompt, enter as many newline-separated commands as you like. O
 
 As you can see, you can use `?expr` to insert a logging statement for `expr`. 
 
-What's really happening here is that Rustic is just remembering all the commands you've entered, recompiling the lot of it with every evaluation pass, and running the program anew. This means that if you evaluate commands with side effects, these will recur with each evaluation:
+What's really happening here is that Rustic is just remembering all the commands you've ever entered, recompiling the lot of it with every evaluation pass, and running the program anew. This means that if you evaluate commands with side effects, these will recur with each evaluation:
 
     [Input]
     log(error, "side effects!");
@@ -65,9 +65,9 @@ What's really happening here is that Rustic is just remembering all the commands
     [Output]
     rust: "side effects!"
 
-Note that using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's remembered commands by typing an `EOF` character at the input prompt (`^D` on Unix) or by using the magic word `%clear`.
+Note that, for the sake of convenience, using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's remembered commands by typing an `EOF` character at the input prompt (`^D` on Unix) or by using the magic word `%clear`.
 
-If you don't want your commands to be saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch after the initial evaluation:
+If you don't want any of your commands to be saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch after the initial evaluation:
 
     [Input]
     let a = 2;
@@ -151,6 +151,6 @@ Perhaps the most thrilling of these is `%putgist`, which will automatically uplo
     [Magic]
     Scratch file pasted to https://gist.github.com/1786708
 
-[1] RUST Interactive, Cruddily
+[1] **Rust** **i**nteractive, **c**ruddily
 
-[2] Really Egregiously Poorly impLemented read/eval/print loop
+[2] **R**ather **E**gregiously **P**rimitive imp**L**ementation of a read/eval/print loop
