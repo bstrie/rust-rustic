@@ -123,6 +123,7 @@ try:
                     persist_transient = True
                 else:
                     transient += INDENT + 'log(error, ' + line[1:] + ');\n'
+
             elif re.match('%', line):  # Magic
                 print('\n' + TERM_MAGENTA + '[Magic]' + TERM_RESET)
                 if line == '%help':
@@ -136,13 +137,15 @@ try:
                 else:
                     print('Unrecognized magic word: ' + line + '\n')
                 break
+
             elif line != '':  # Rust code
                 if persist_transient:
                     transient += INDENT + line + '\n'
-                elif re.match('use ', line) or re.match('import ', line):
+                elif re.match('extern mod ', line) or re.match('use ', line):
                     new_head += line + '\n'
                 else:
                     new_body += INDENT + line + '\n'
+
             else:  # Newline, let's evaluate
                 if transient != DEFAULT_TRANSIENT:
                     transient = TRANSIENT_HEADER + transient
