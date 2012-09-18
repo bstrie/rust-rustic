@@ -4,15 +4,15 @@ This is Rustic,<sup>[1]</sup> the worse-is-better REPL<sup>[2]</sup> for the [Ru
 
 (To be more precise, Rustic is more of an incremental source file compositor and validator (ISFCV) than a REPL, but it's more-or-less identical in terms of use.)
 
-Although I haven't had a chance to test it on platforms other than Linux, Rustic should be stable. Please report any bugs encountered to the [issue tracker](https://github.com/Wensleydale/rust-rustic/issues) on Github.
+Although I haven't had a chance to test it on platforms other than Linux, Rustic should Just Work (it's so dead simple, it would be hard not to). Please report any bugs encountered to the [issue tracker](https://github.com/bstrie/rust-rustic/issues) on Github.
 
 ## Major Features
 
- * Persistent evaluation history (with optional transience!)
+ * Persistent evaluation history (with optional transience)
  * Readline support
- * Easily upload code (with evaluated output) to Gist
+ * Upload code (with evaluated output and errors) to Gist
  * Low-friction logging
- * Works with any and all builds of Rustc (as far as I know)
+ * Works with any and all builds of Rust (now 100% more true!)
 
 ## Platforms
 
@@ -20,7 +20,7 @@ Tested on Linux. Assumed to work on Mac and Windows.
 
 ## Installation
 
-The `rustic` file itself is found in the `build` directory in the Git repository (the `.rc` and `.rs` files in the upper directory are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `.cargo/bin`. 
+The `rustic` file itself is found in the `build` directory in the Git repository (the `.rc` and `.rs` files in the upper directory are just there to appease Cargo). If you install it via Cargo (`cargo install rustic`), Rustic will be in `.cargo/bin`.
 
 Rustic requires Python 3 to run. Maybe I'll rewrite it in Rust once the language stabilizes a bit.
 
@@ -49,25 +49,27 @@ At the `[Input]` prompt, enter as many newline-separated commands as you like. O
     [Output]
     rust: "hello"
 
-As you can see, you can use `?expr` to insert a logging statement for `expr`. 
+As you can see, you can use `?expr` to insert a logging statement for `expr`.
 
-What's really happening here is that Rustic is just remembering all the commands you've ever entered, recompiling the lot of it with every evaluation pass, and running the program anew. This means that if you evaluate commands with side effects, these will recur with each evaluation:
+What's really happening here is that Rustic is just remembering all the commands you've ever entered, recompiling the lot of it with every evaluation pass, and running the program anew. This means that if you enter commands with side effects, these will recur with each evaluation:
 
     [Input]
-    log(error, "side effects!");
+    log(error, "I'll be back!");
+    ?"I won't!"
     
     [Output]
-    rust: "side effects!"
+    rust: "I'll be back!"
+    rust: "I won't!"
     
     [Input]
-    let b = "I sure hope there are no side effects lurking about";
+    let foo = "I sure hope there are no side effects lurking about";
     
     [Output]
-    rust: "side effects!"
+    rust: "I'll be back!"
 
-Note that, for the sake of convenience, using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's remembered commands by typing an `EOF` character at the input prompt (`^D` on Unix) or by using the magic word `%clear`.
+Note that, for the sake of convenience, using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's evaluation list by typing an `EOF` character at the input prompt (`^D` on Unix) or by using the magic word `%clear`.
 
-If you don't want any of your commands to be saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch after the initial evaluation:
+If you want to prevent some commands from being saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch after the evaluation:
 
     [Input]
     let a = 2;
