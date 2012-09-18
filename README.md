@@ -12,7 +12,7 @@ Although I haven't had a chance to test it on platforms other than Linux, Rustic
  * Readline support
  * Upload code (with evaluated output and errors) to Gist
  * Low-friction logging
- * Works with any and all builds of Rust (now 100% more true!)
+ * Works with any and all builds of Rust (except for a few minor syntax tweaks from versions of Rust prior to 0.4)
 
 ## Platforms
 
