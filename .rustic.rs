@@ -1,7 +1,5 @@
-use std;
-
 fn main() {
-    std::io::println("
+    io::println("
  Mr. Goodkat: The reason I'm in town, in case you're wondering, is because of a
               Kansas City Shuffle.
         Nick: What's a Kansas City Shuffle?
