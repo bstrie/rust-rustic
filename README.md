@@ -30,7 +30,7 @@ In addition, Rustic is installed alongside [colorama](http://pypi.python.org/pyp
 
 ## Usage
 
-At the `[Input]` prompt, enter as many newline-separated commands as you like. On a readline-enabled platform, use the arrow keys to cycle through previously entered commands (among other readline niceties, such as ^R for searching your history). Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
+At the `[Input]` prompt, enter as many newline-separated commands as you like. On a readline-enabled platform, use the arrow keys to cycle through previously entered commands (among other readline niceties, such as `^R` for searching your history). Entering a blank line will cause all the preceding lines to be evaluated and their output printed. If there are no errors in a batch of evaluated lines, those lines are remembered for subsequent evaluation passes. For example:
 
     [Input]
     let foo = 'hello';
@@ -67,7 +67,7 @@ What's really happening here is that Rustic is just remembering all the commands
     [Output]
     rust: "I'll be back!"
 
-Note that, for the sake of convenience, using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's evaluation list by typing an `EOF` character at the input prompt (`^D` on Unix) or by using the magic word `%clear`.
+Note that, for the sake of convenience, using the `?expr` syntax does *not* cause the logging statement to recur in future evaluations. You can clear Rustic's evaluation memory by typing an `EOF` character at the input prompt (`^D` on Unix) or by using the magic word `%clear`.
 
 If you want to prevent some commands from being saved for future evaluation passes, enter `?` on its own line to order Rustic to discard all subsequent commands in that batch after the evaluation:
 
