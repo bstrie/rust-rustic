@@ -43,6 +43,8 @@ DEFAULT_TRANSIENT = ''
 SHOW_COMP_MSG = False  # Suppress compiler warnings by default
 
 def reset_scratch():
+    global VALID_HEAD
+    global VALID_BODY
     VALID_HEAD = DEFAULT_HEAD
     VALID_BODY = DEFAULT_BODY
     print('\n' + TERM_MAGENTA + '[Magic]' + TERM_RESET + \
@@ -65,6 +67,7 @@ def print_scratch():
         print('\n')
 
 def toggle_comp_msg():
+    global SHOW_COMP_MSG
     SHOW_COMP_MSG = not SHOW_COMP_MSG
     if SHOW_COMP_MSG:
         print('Compiler messages enabled\n')
