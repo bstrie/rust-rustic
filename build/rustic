@@ -97,9 +97,10 @@ def put_gist(output, comp_ver):
         print('Scratch file pasted to ' + res['html_url'] + '\n')
 
 # Finally, let's get this REPL started
+print(TERM_CYAN + '[Compiler info]' + TERM_RESET)
 comp_ver = subprocess.check_output(('rustc', '-v'), \
                                    stderr=subprocess.STDOUT).decode('u8')
-print(TERM_CYAN + '[Compiler info]' + TERM_RESET + '\n' + comp_ver + '\n' + \
+print(comp_ver + '\n' + \
 TERM_CYAN + '[Rustic]' + TERM_RESET + '''
 Blank line to eval, ^D or %clear to clear environment, ?expr to log expr,
 ^C or %exit to quit, %putgist to paste to Gist, %help for a list of commands.
